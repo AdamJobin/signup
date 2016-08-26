@@ -50,14 +50,15 @@ class Response(webapp2.RequestHandler):
 
         if username == "":
             error1= "Please enter a username."
+        elif not re.match("^[a-zA-Z0-9_-]{3,20}$", username):
+            error1="Please enter a valid username"
         else:
             error1= ""
         if password1 != verify1:
             error2= "Passwords do not match"
         else:
             error2= ""
-        if not re.match("^[a-zA-Z0-9_-]{3,20}$", username):
-            error3="Please enter a valid username"
+
         name_form_response="""
         <form action= "/name" method= "post">
             <label for="username">Username</label>
@@ -74,7 +75,7 @@ class Response(webapp2.RequestHandler):
                 <br>
                 <input type= "submit">
                 <br>
-                <p class="error">""" + error1 + error2 + error3 +  """</p>
+                <p class="error">""" + error1 + error2 + """</p>
         </form>
         """
         self.response.write(page_header + name_form_response + page_footer)
